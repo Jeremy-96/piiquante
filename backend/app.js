@@ -8,7 +8,7 @@ const path = require('path');
 
 dotenv.config();
 
-mongoose.connect('mongodb+srv://Jerem:hardcore96@cluster0.naspx.mongodb.net/Cluster0?retryWrites=true&w=majority',
+mongoose.connect(process.env.DB_URI,
   { useNewUrlParser: true,
     useUnifiedTopology: true })
   .then(() => console.log('Connexion à MongoDB réussie !'))
