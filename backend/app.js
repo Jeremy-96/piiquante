@@ -1,4 +1,5 @@
 const express = require('express');
+const helmet = require('helmet');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
@@ -14,6 +15,10 @@ mongoose.connect('mongodb+srv://Jerem:hardcore96@cluster0.naspx.mongodb.net/Clus
   .catch(() => console.log('Connexion à MongoDB échouée !'));
 
 const app = express();
+
+app.use(helmet());
+
+
 
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
