@@ -5,8 +5,8 @@ const multer = require('../middleware/multer-config')
 const saucesCtrl = require('../controllers/sauces');
 
 /**
- * On fait appel aux différentes routes possibles
- * Chaque routes nécessite une authentitfication d'accès
+ * Create router items
+ * Each root requires access authentication
  */
 router.get('/', auth, saucesCtrl.getAllSauce); // Affichage de tous les objets
 router.post('/', auth, multer, saucesCtrl.createSauce); // Création d'un objet

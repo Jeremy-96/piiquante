@@ -1,11 +1,11 @@
 /**
- * On crée le controleur utilisateur
+ * User controllers (Signup and login)
  */
 const bcrypt = require('bcrypt');
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
 
-// Fonction d'inscription
+// Signup
 exports.signup = (req, res, next) => {
     bcrypt.hash(req.body.password, 10)
     .then(hash => {
@@ -20,7 +20,7 @@ exports.signup = (req, res, next) => {
     .catch(error => res.status(500).json({ error }));
 };
 
-// Fonction de connexion
+// Login
 exports.login = (req, res, next) => {
     User.findOne({ email: req.body.email })
     .then(user => {

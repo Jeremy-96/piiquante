@@ -1,5 +1,5 @@
 /**
- * On crée le modèle d'utilisateur
+ * Create a user schema(model)
  */
 const mongoose = require('mongoose');
 const uniqueValidator = require('mongoose-unique-validator');

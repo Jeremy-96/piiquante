@@ -1,3 +1,6 @@
+/**
+ * Create an item schema(model)
+ */
 const mongoose = require('mongoose');
 const sauceSchema = mongoose.Schema({
     userId: {type: String, required: true}, // MongoDB Id

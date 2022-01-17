@@ -1,5 +1,8 @@
+/**
+ * Call of the dependencies
+ */
 const express = require('express');
-//const cors = require('cors');
+const cors = require('cors');
 const helmet = require('helmet');
 const session = require('cookie-session');
 const bodyParser = require('body-parser');
@@ -8,25 +11,27 @@ const dotenv = require('dotenv');
 const path = require('path');
 const nocache = require('nocache');
 
+/**
+ * Call of the routers
+ */
 const userRoutes = require('./routes/user');
 const sauceRoutes = require('./routes/sauces');
 
 dotenv.config();
 
 /**
- * Connexion à la base de données MongoDB via mongoose
+ * Connect to database MongoDB with mongoose.connect
  */
 mongoose.connect(process.env.DB_URI,
   { useNewUrlParser: true,
     useUnifiedTopology: true })
-  .then(() => console.log('Connexion à MongoDB réussie !'))
-  .catch(() => console.log('Connexion à MongoDB échouée !'));
+  .then(() => console.log('Successful connection to MongoDB !'))
+  .catch(() => console.log('Failed connection to MongoDB !'));
 
 const app = express();
 
-
 /**
- * Mise en place du CORS (Cross-origin-resource-sharing)
+ * Setting up the CORS (Cross-origin-resource-sharing)
  */
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -36,48 +41,40 @@ app.use((req, res, next) => {
 });
 
 /**
- * Définition des entêtes cache-control et Pragma grace au package nocache
- * Celui-ci désactive la mise en cache côté client
+ * Definition of the cache-control and Pragma headers with the nocache package
+ * This one disables client-side caching
  */
- app.use(nocache());
+app.use(nocache());
 
 /**
- * On utilise le package de cookie-session pour sécuriser les cookies de la session en cours
+ * Cookie-session module stores the session data on the client within a cookie
  */
  var expiryDate = new Date(Date.now() + 60 * 60 * 1000) // 1 hour
  app.use(session({
     name: 'session',
     secret: process.env.KEY_SESSION,
     cookie: {
-        secure: true, // le navigateur n'envoie le cookie que sur https
-        httpOnly: true, // le cookie est envoyé sur http(s) et pas sur le javascript client
+        secure: true, // the browser only sends the cookie on https
+        httpOnly: true, // the cookie is sent on http(s) and not on the client javascript
         domain: 'http://localhost:3000',
         path: 'foo/bar',
-        expires: expiryDate // définit la date d'expiration des cookies persistants
+        expires: expiryDate // sets the expiration date for persistent cookies
     }
 }));
 
-
+/**
+ * bodyParser will parse the body of the json file
+ */
 app.use(bodyParser.json());
 
 /**
  * Le package cors 
- 
+ */
 app.use(cors());
-var corsOptions = {
-  origin: 'http://localhost:8081',
-  optionsSuccessStatus: 200 
-}
-app.get('/', cors(corsOptions), function (req, res, next) {
-  res.json({message: 'This is CORS-enabled for all origins!'})
-})
-app.listen(8081, function () {
-  console.log('CORS-enabled web server listening on port 8081')
-})
-*/
+
 
 /**
- * Sécurisation des entêtes http grace au package d'Helmet
+ * Securing http headers with the Helmet package :
  * x-powered-by
  * Xss
  * Anti-click Jacking (frameguard)
@@ -94,9 +91,6 @@ helmet.hsts()
 );
 
 
-/**
- * Routes qui vont déservir l'application
- */
 app.use('/images', express.static(path.join(__dirname, 'images')));
 app.use('/api/sauces', sauceRoutes);
 app.use('/api/auth', userRoutes);

@@ -1,12 +1,14 @@
+/**
+ * The password-validator module adds an additional password check
+ */
 const passwordSchema = require('../models/Password');
 
-// On vérifie la structure du mot de passe
 module.exports = (req, res, next) => {
     if (!passwordSchema.validate(req.body.password)) {
-        res.writeHead(400, '{"message":"Mot de passe requis : 8 caractères minimun. Au moins 1 Majuscule, 1 minuscule. Sans espaces"}', {
+        res.writeHead(400, {message:"Password required: 8 characters minimum. At least 1 upper case, 1 lower case. No spaces."}, {
             'content-type': 'application/json'
         });
-        res.end('Format de mot de passe incorrect');
+        res.end('Incorrect password format');
     } else {
         next();
     }

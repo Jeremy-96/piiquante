@@ -1,8 +1,10 @@
+/**
+ * The password-validator module adds an additional password check
+ */
 const passwordValidator = require('password-validator');
 
-// Create a schema
+// Create a schema :
 const passwordSchema = new passwordValidator();
-
 
 passwordSchema
 .is().min(8)                                    
@@ -12,6 +14,5 @@ passwordSchema
 .has().digits(2)                                
 .has().not().spaces()                           
 .is().not().oneOf(['Passw0rd', 'Password123']); 
-
 
 module.exports = passwordSchema;
