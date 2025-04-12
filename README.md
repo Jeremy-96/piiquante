@@ -29,7 +29,7 @@ https://nodejs.org/en/download/
 **Clone repository**
 
 ```
-git clone https://github.com/Jeremy-96/JeremyThonon_6_04012022.git
+git clone https://github.com/Jeremy-96/piiquante.git
 ```
 
 ## Backend :
